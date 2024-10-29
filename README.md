@@ -13,3 +13,6 @@ This hack job is based on IrssiNotifier; see https://github.com/murgo/IrssiNotif
 
 # Disclaimer
 This is a hack job. Use at your own risk.
+
+# Screenshot
+![Screenshot from ntfy Android app](images/irssintfy.jpg)
