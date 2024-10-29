@@ -259,15 +259,21 @@ sub send_to_api {
         $target->{tag} = Irssi::input_add(fileno($readHandle), INPUT_READ, \&read_pipe, $target);
     } else {
         eval {
-            my $api_url = Irssi::settings_get_str('irssintfy_api_url');
-            my $proxy   = Irssi::settings_get_str('irssintfy_https_proxy');
+            my $api_url    = Irssi::settings_get_str('irssintfy_api_url');
+            my $auth_token = Irssi::settings_get_str('irssintfy_auth_token');
+            my $proxy      = Irssi::settings_get_str('irssintfy_https_proxy');
+
+            my $curl_cmd = "curl -o /dev/null -s -H \"Tags: irssi\"";
+            my $data;
+
 
             if($proxy) {
                 $ENV{https_proxy} = $proxy;
             }
 
-            my $curl_cmd = "curl -o /dev/null -s -H Tags:\\ irssi";
-            my $data;
+            if($auth_token) {
+                $curl_cmd = "$curl_cmd -H \"Authorization: Bearer $auth_token\"";
+            }
 
             if ($type eq 'notification') {
                 $lastMsg = Irssi::strip_codes($lastMsg);
@@ -399,6 +405,7 @@ sub event_key_pressed {
 }
 
 Irssi::settings_add_str('irssinotifier', 'irssintfy_api_url', '');
+Irssi::settings_add_str('irssinotifier', 'irssintfy_auth_token', '');
 Irssi::settings_add_str('irssinotifier', 'irssintfy_https_proxy', '');
 Irssi::settings_add_str('irssinotifier', 'irssintfy_ignored_servers', '');
 Irssi::settings_add_str('irssinotifier', 'irssintfy_ignored_channels', '');
