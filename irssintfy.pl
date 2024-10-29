@@ -1,5 +1,5 @@
-# This script has been hacked from IrssiNotifier:
-# https://github.com/murgo/IrssiNotifier
+# Script to send notifications from Irssi via ntfy; https://ntfy.sh/
+# Hacked from IrssiNotifier script; https://github.com/murgo/IrssiNotifier
 
 use strict;
 use warnings;
@@ -37,7 +37,6 @@ my $lastKeyboardActivity = time;
 my $forked;
 my $lastDcc = 0;
 my @delayQueue = ();
-
 my $screen_socket_path;
 
 if (defined($ENV{STY})) {
@@ -56,7 +55,7 @@ sub private {
     $lastServer  = $server;
     $lastMsg     = $msg;
     $lastNick    = "*$nick*";
-    $lastTarget  = "PRIVMSG";
+    $lastTarget  = "PRIVATE MSG";
     $lastWindow  = $nick;
     $lastDcc = 0;
 }
@@ -86,7 +85,7 @@ sub dcc {
     $lastServer  = $dcc->{server};
     $lastMsg     = $msg;
     $lastNick    = $dcc->{nick};
-    $lastTarget  = "!PRIVATE";
+    $lastTarget  = "DCC CHAT";
     $lastWindow  = $dcc->{target};
     $lastDcc = 1;
 }
