@@ -1,3 +1,6 @@
+# This script has been hacked from IrssiNotifier:
+# https://github.com/murgo/IrssiNotifier
+
 use strict;
 use warnings;
 no warnings 'closure';
@@ -14,9 +17,9 @@ $VERSION = "0.1";
     authors     => "pyksy",
     contact     => "irssintfy\@molukki.com",
     name        => "IrssiNtfy",
-    description => "Send notifications from Irssi to ntfy, a hack of IrssiNotifier",
+    description => "Send notifications from Irssi to ntfy",
     license     => "Apache License, version 2.0",
-    url         => "https://localhost/",
+    url         => "https://github.com/pyksy/irssintfy",
     changed     => "2024-10-29"
 );
 
@@ -346,7 +349,7 @@ sub are_settings_valid {
     }
 
     if (!Irssi::settings_get_str('irssintfy_api_url')) {
-        Irssi::print("IrssiNotifier: Set API URL to send notifications: /set irssintfy_api_url [url]");
+        Irssi::print("IrssiNtfy: Set API URL to send notifications: /set irssintfy_api_url [url]");
         return 0;
     }
 
@@ -380,23 +383,19 @@ sub event_key_pressed {
     $lastKeyboardActivity = time;
 }
 
-Irssi::settings_add_str('irssinotifier', 'irssintfy_api_url', '');
-Irssi::settings_add_str('irssinotifier', 'irssintfy_auth_token', '');
-Irssi::settings_add_str('irssinotifier', 'irssintfy_https_proxy', '');
-Irssi::settings_add_str('irssinotifier', 'irssintfy_ignored_servers', '');
-Irssi::settings_add_str('irssinotifier', 'irssintfy_ignored_channels', '');
-Irssi::settings_add_str('irssinotifier', 'irssintfy_ignored_nicks', '');
-Irssi::settings_add_str('irssinotifier', 'irssintfy_ignored_highlight_patterns', '');
-Irssi::settings_add_str('irssinotifier', 'irssintfy_required_public_highlight_patterns', '');
-Irssi::settings_add_bool('irssinotifier', 'irssintfy_ignore_active_window', 0);
-Irssi::settings_add_bool('irssinotifier', 'irssintfy_away_only', 0);
-Irssi::settings_add_bool('irssinotifier', 'irssintfy_screen_detached_only', 0);
-Irssi::settings_add_int('irssinotifier', 'irssintfy_require_idle_seconds', 0);
-Irssi::settings_add_bool('irssinotifier', 'irssintfy_enable_dcc', 1);
-
-# these commands are renamed
-Irssi::settings_remove('irssintfy_ignore_server');
-Irssi::settings_remove('irssintfy_ignore_channel');
+Irssi::settings_add_str('irssintfy', 'irssintfy_api_url', '');
+Irssi::settings_add_str('irssintfy', 'irssintfy_auth_token', '');
+Irssi::settings_add_str('irssintfy', 'irssintfy_https_proxy', '');
+Irssi::settings_add_str('irssintfy', 'irssintfy_ignored_servers', '');
+Irssi::settings_add_str('irssintfy', 'irssintfy_ignored_channels', '');
+Irssi::settings_add_str('irssintfy', 'irssintfy_ignored_nicks', '');
+Irssi::settings_add_str('irssintfy', 'irssintfy_ignored_highlight_patterns', '');
+Irssi::settings_add_str('irssintfy', 'irssintfy_required_public_highlight_patterns', '');
+Irssi::settings_add_bool('irssintfy', 'irssintfy_ignore_active_window', 0);
+Irssi::settings_add_bool('irssintfy', 'irssintfy_away_only', 0);
+Irssi::settings_add_bool('irssintfy', 'irssintfy_screen_detached_only', 0);
+Irssi::settings_add_int('irssintfy', 'irssintfy_require_idle_seconds', 0);
+Irssi::settings_add_bool('irssintfy', 'irssintfy_enable_dcc', 1);
 
 Irssi::signal_add('message irc action', 'public');
 Irssi::signal_add('message public',     'public');
