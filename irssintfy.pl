@@ -12,7 +12,7 @@ use POSIX;
 use Encode;
 use vars qw($VERSION %IRSSI);
 
-$VERSION = "0.1";
+$VERSION = "0.2-pre1";
 %IRSSI   = (
     authors     => "pyksy",
     contact     => "irssintfy\@molukki.com",
