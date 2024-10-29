@@ -33,7 +33,6 @@ my $lastWindow;
 my $lastKeyboardActivity = time;
 my $forked;
 my $lastDcc = 0;
-my $notifications_sent = 0;
 my @delayQueue = ();
 
 my $screen_socket_path;
@@ -337,10 +336,6 @@ sub read_pipe {
         #Irssi::print($IRSSI{name} . ": Error: send failed: $output");
     }
 
-    if (Irssi::settings_get_bool('irssintfy_clear_notifications_when_viewed') && $target->{type} eq 'notification') {
-        $notifications_sent++;
-    }
-
     check_delayQueue();
 }
 
@@ -360,8 +355,6 @@ sub are_settings_valid {
         Irssi::print("IrssiNtfy: curl not found.");
         return 0;
     }
-
-    $notifications_sent = 0 unless (Irssi::settings_get_bool('irssintfy_clear_notifications_when_viewed'));
 
     return 1;
 }
@@ -383,23 +376,6 @@ sub check_delayQueue {
     return 1;
 }
 
-sub check_window_activity {
-    return if (!$notifications_sent);
-
-    my $act = 0;
-    foreach (Irssi::windows()) {
-        # data_level 3 means window has unseen hilight
-        if ($_->{data_level} == 3) {
-            $act++; last;
-        }
-    }
-
-    if (!$act) {
-        send_command("clearNotifications");
-        $notifications_sent = 0;
-    }
-}
-
 sub event_key_pressed {
     $lastKeyboardActivity = time;
 }
@@ -415,7 +391,6 @@ Irssi::settings_add_str('irssinotifier', 'irssintfy_required_public_highlight_pa
 Irssi::settings_add_bool('irssinotifier', 'irssintfy_ignore_active_window', 0);
 Irssi::settings_add_bool('irssinotifier', 'irssintfy_away_only', 0);
 Irssi::settings_add_bool('irssinotifier', 'irssintfy_screen_detached_only', 0);
-Irssi::settings_add_bool('irssinotifier', 'irssintfy_clear_notifications_when_viewed', 0);
 Irssi::settings_add_int('irssinotifier', 'irssintfy_require_idle_seconds', 0);
 Irssi::settings_add_bool('irssinotifier', 'irssintfy_enable_dcc', 1);
 
@@ -431,4 +406,3 @@ Irssi::signal_add('message dcc',        'dcc');
 Irssi::signal_add('message dcc action', 'dcc');
 Irssi::signal_add('print text',         'print_text');
 Irssi::signal_add('setup changed',      'are_settings_valid');
-Irssi::signal_add('window changed',     'check_window_activity');
