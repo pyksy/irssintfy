@@ -1,5 +1,5 @@
 # IrssiNtfy
-Irssi script to send notifications from Irssi via ntfy; see https://ntfy.sh/
+Irssi script to send notifications to your phone from Irssi via ntfy; see https://ntfy.sh/
 
 This hack job is based on IrssiNotifier; see https://github.com/murgo/IrssiNotifier
 
